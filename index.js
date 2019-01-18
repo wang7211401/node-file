@@ -6,27 +6,26 @@ const upload = multer({ dest: 'uploads/' });
 const app = express();
 
 app.get('/', (req, res) => {
-  res.send('hello nodejs');
+    res.send('hello nodejs');
 });
 
 app.options('/upload', cors());
 app.post('/upload', cors(), upload.single('file'), (req, res) => {
-  res.send(req.file);
+    res.send(req.file.filename);
 });
 
 app.get('/preview/:key', cors(), (req, res) => {
-  res.sendFile(
-    `uploads/${req.params.key}`,
-    {
-      root: __dirname,
-      headers: {
-        'Content-Type': 'image/jpeg',
-      },
-    },
-    error => {
-      console.log(error);
-    }
-  );
+    res.sendFile(
+        `uploads/${req.params.key}`, {
+            root: __dirname,
+            headers: {
+                'Content-Type': 'image/jpeg',
+            },
+        },
+        error => {
+            console.log(error);
+        }
+    );
 });
 
 var port = process.env.PORT || 3000;
